@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import newsRoutes from './routes/newsRoutes.js'
 
 // --- Config ---
 dotenv.config();
@@ -25,6 +26,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong 🏓 from backend' });
 });
+
+app.use('/api/news', newsRoutes);
 
 // --- Server Start ---
 app.listen(PORT, () => {
