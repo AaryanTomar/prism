@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import newsRoutes from './routes/newsRoutes.js'
 import stockRoutes from './routes/stockRoutes.js';
 
 // --- Config ---
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
   
 // --- Routes ---
 app.use('/api', stockRoutes);
+app.use('/api/news', newsRoutes);
 
 // --- Server Start ---
 app.listen(PORT, () => {
