@@ -1,4 +1,3 @@
-// aiRoutes.js - Add this file to your backend
 import express from 'express';
 import {
   generateHypotheticalScenarioQuestion,
@@ -9,7 +8,6 @@ import {
 
 const router = express.Router();
 
-// Endpoint for generating a hypothetical scenario question
 router.post('/hypothetical-question', async (req, res) => {
   try {
     const { paragraph } = req.body;
@@ -26,7 +24,6 @@ router.post('/hypothetical-question', async (req, res) => {
   }
 });
 
-// Endpoint for generating a term learning question
 router.post('/term-question', async (req, res) => {
   try {
     const { paragraph } = req.body;
@@ -43,7 +40,6 @@ router.post('/term-question', async (req, res) => {
   }
 });
 
-// Endpoint for generating an industry extrapolation question
 router.post('/industry-question', async (req, res) => {
   try {
     const { paragraph } = req.body;
@@ -60,7 +56,6 @@ router.post('/industry-question', async (req, res) => {
   }
 });
 
-// Endpoint for answering economic concept questions
 router.post('/answer-question', async (req, res) => {
   try {
     const { question } = req.body;
