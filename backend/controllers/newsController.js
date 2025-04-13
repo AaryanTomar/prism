@@ -50,7 +50,7 @@ export const createStockNewsOverview = async (req, res) => {
     const combinedNews = [...companyNews, ...tickerNews];
 
     const geminiResult = await model.generateContent(`Do not use any formatting, such as bolding. Based on the following stories, if relevant, for ${shortname} (${symbol}) discuss the financial outlook based on market conditions, competitor performance, and macroeconomic factors (like tariffs, interest rates, or regulation).\n\n` +
-        `Jump straight into the summary and keep it 3-4 sentences. Explain clearly and directly in a way someone unfamiliar with finance what factors will affect the company and how.`+
+        `Jump straight into the summary and keep it 2-3 sentences in language regular people can understand. Explain clearly and directly in a way someone unfamiliar with finance what factors will affect the company and how.`+
         combinedNews.map((a, i) => `${i + 1}. ${a.title} - ${a.description}`).join('\n'))
     const summary = geminiResult.response.text();
 
