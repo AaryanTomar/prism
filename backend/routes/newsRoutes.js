@@ -4,6 +4,7 @@ import { getStockNews, createStockNewsOverview } from '../controllers/newsContro
 const router = express.Router();
 
 router.get('/:ticker', getStockNews);
+
 router.get('/overview/:input', createStockNewsOverview);
 
 export default router;
