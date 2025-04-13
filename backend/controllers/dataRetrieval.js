@@ -1,5 +1,6 @@
 import yahooFinance from 'yahoo-finance2';
 import Stock from '../models/Stock.js';
+import { generateStockOverviewWithLLM } from './newsController.js';
 
 // Import necessary modules
 
@@ -31,29 +32,39 @@ async function getTickerFromInput(input) {
  */
 async function getLLMSummary(input) {
     try {
-        const ticker = await getTickerFromInput(input);
-        console.log("1");
-        // Try to fetch existing summary
-        let stock = await Stock.findOne({ ticker });
-        console.log("2");
-        if (stock?.llmSummary) return stock.llmSummary;
-        console.log('No summary found, generating new one...');
-    
-        // Trigger the route by making an HTTP GET request
-        const result = await generateStockOverviewWithLLM("Apple");;
-    
-        // Wait for MongoDB to update
-        stock = await Stock.findOne({ ticker });
-        if (stock?.llmSummary) return stock.llmSummary;
-    
-        throw new Error('Summary not found even after generation.');
-        } catch (err) {
-            console.error('getLLMSummary error:', err.message);
-            throw err;
+      const ticker = await getTickerFromInput(input);
+      console.log("📍 Step 1: Got ticker:", ticker);
+  
+      let stock = await Stock.findOne({ ticker });
+      console.log("📍 Step 2: Queried DB");
+  
+      if (stock?.llmSummary) {
+        console.log("✅ Summary already exists");
+        return stock.llmSummary;
+      }
+  
+      console.log('📄 No summary found — generating new one...');
+      await generateStockOverviewWithLLM(input);
+  
+      stock = await Stock.findOne({ ticker });
+      if (stock?.llmSummary) {
+        console.log("✅ Summary created and saved");
+        return stock.llmSummary;
+      }
+  
+      throw new Error('LLM summary not found even after generation.');
+    } catch (err) {
+      console.error('❌ getLLMSummary error:', err.message);
+      throw err;
     }
-}
-
-export {
+  }
+  
+  export {
     getTickerFromInput,
     getLLMSummary,
-};
+  };
+
+
+
+
+    

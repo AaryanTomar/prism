@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Test inputs
 const testInputs = [
   'Apple',
-  'Exxon Mobil'
+  'Mattel'
 ];
 
 // Run test
