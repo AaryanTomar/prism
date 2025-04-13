@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(`${process.env.GEMINI_API_KEY}`);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro-exp-03-25' });
+const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
 
 export const generateStockOverviewWithLLM = async (input) => {
