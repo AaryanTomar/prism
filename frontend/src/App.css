@@ -1,4 +1,4 @@
-/* Root variables - keeping your existing color scheme */
+/* root */
 :root {
   --primary-color: #121212;
   --accent-color: #222222;
@@ -38,7 +38,6 @@ body {
   position: relative;
 }
 
-/* Modified App Header - with flipped elements */
 .app-header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -70,7 +69,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Stock Header (symbol and name) */
+/* stock design */
 .stock-header {
   display: flex;
   align-items: baseline;
@@ -215,14 +214,13 @@ body {
   color: var(--negative);
 }
 
-/* New chart section wrapper */
 .chart-section {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
 }
 
-/* Timeframe Selector - Updated to match chart width */
+/* time buttons */
 .timeframe-selector {
   display: flex;
   justify-content: center;
@@ -253,18 +251,17 @@ body {
   color: white;
 }
 
-/* Two-column Dashboard Grid - Optimized for two columns */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr; /* Left column slightly wider for charts */
+  grid-template-columns: 1.4fr 1fr;
   gap: 20px;
   padding: 15px;
 }
 
-/* Enhanced Dashboard Grid - Two column layout by default */
+/* main dash */
 .enhanced-dashboard-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr; /* Stock info | AI + Questions */
+  grid-template-columns: 1.4fr 1fr;
   gap: 20px;
   padding: 15px;
 }
@@ -279,7 +276,7 @@ body {
   width: 100%;
 }
 
-/* Chart Container - Make sure it has rounded corners only at the bottom when inside chart-section */
+/* stock chart */
 .chart-container {
   background: var(--background-color);
   padding: 15px;
@@ -292,7 +289,7 @@ body {
   border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
-/* Info Panels - More compact */
+/* financials */
 .info-panels {
   display: flex;
   flex-direction: column;
@@ -301,7 +298,7 @@ body {
 
 .financials-container, .profile-container {
   background: var(--background-color);
-  padding: 15px;
+  padding: 30px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }
@@ -315,36 +312,32 @@ body {
   border-bottom: 1px solid var(--medium-gray);
 }
 
-.key-metrics table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-.key-metrics tr {
-  border-bottom: 1px solid var(--light-gray);
-}
-
-.key-metrics tr:last-child {
-  border-bottom: none;
-}
-
-.key-metrics td {
+.key-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 100px;
   padding: 8px 0;
 }
 
-.metric-label {
-  color: #555;
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.label {
+  color: #444;
   font-weight: 500;
 }
 
-.metric-value {
-  text-align: right;
+.value {
   font-weight: 600;
-  font-variant-numeric: tabular-nums; /* Better alignment for numbers */
+  font-variant-numeric: tabular-nums;
 }
 
-/* Profile Details - More compact */
+/* profile */
 .profile-details {
   margin-top: 10px;
 }
@@ -431,7 +424,7 @@ body {
   color: #777;
 }
 
-/* News & Analysis Section - New Styles */
+/* news summary */
 .news-analysis {
   background-color: var(--light-gray);
   padding: 18px;
@@ -459,7 +452,7 @@ h1, h2, h3 {
   color: var(--text-color);
 }
 
-/* Financial education section */
+/* learning */
 .learn-more {
   margin-bottom: 15px;
   background-color: var(--background-color);
@@ -523,7 +516,6 @@ h1, h2, h3 {
   margin-top: 15px;
 }
 
-/* Ask your own question section */
 .ask-own {
   margin-top: 20px;
 }
@@ -577,7 +569,6 @@ h1, h2, h3 {
   background-color: var(--accent-color);
 }
 
-/* Answer section */
 .answer {
   background-color: var(--light-gray);
   padding: 16px;
@@ -588,7 +579,6 @@ h1, h2, h3 {
   line-height: 1.5;
 }
 
-/* Responsive adjustments */
 @media (min-width: 1200px) {  
   .app-container {
     max-width: 1200px;
@@ -610,14 +600,13 @@ h1, h2, h3 {
     grid-template-columns: 1fr;
   }
   
-  /* Make header stack vertically on medium screens */
   .app-header {
-    flex-direction: column-reverse;  /* Reverse to keep stock info at top */
+    flex-direction: column-reverse;
     align-items: center;
   }
   
   .app-header .title-search {
-    align-items: center;  /* Center align on smaller screens */
+    align-items: center;
     margin-bottom: 15px;
   }
   

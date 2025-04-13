@@ -115,7 +115,7 @@ function AILearning({ ticker, profile, stockData }) {
         )}
 
         <div className="custom-question">
-          <h3>Ask Your Own Question:</h3>
+          <h3>Run Your Own Market Query:</h3>
           <div className="question-input">
             <input
               type="text"
