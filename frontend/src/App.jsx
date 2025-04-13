@@ -5,6 +5,7 @@ import StockChart from './components/StockChart';
 import CompanyProfile from './components/CompanyProfile';
 import FinancialMetrics from './components/FinancialMetrics';
 import News from './components/News';
+import AILearning from './components/AILearning';
 
 function App() {
   const [ticker, setTicker] = useState('');
@@ -22,6 +23,12 @@ function App() {
   const MemoizedNews = useMemo(() => {
     return ticker ? <News ticker={ticker} /> : null;
   }, [ticker]);
+  
+  // Add memoized component for AILearning
+  const MemoizedAILearning = useMemo(() => {
+    return ticker && stockData && profile ? 
+      <AILearning ticker={ticker} profile={profile} stockData={stockData} /> : null;
+  }, [ticker, stockData, profile]);
 
   const fetchStockData = async () => {
     if (!ticker) return;
@@ -211,6 +218,11 @@ function App() {
           {/* Use the memoized News component instead of creating a new one on each render */}
           {MemoizedNews}
         </div>
+      </div>
+      
+      {/* Add the new AI Learning section */}
+      <div className="ai-learning-container">
+        {MemoizedAILearning}
       </div>    
     </>
   );

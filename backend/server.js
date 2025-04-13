@@ -5,14 +5,13 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import newsRoutes from './routes/newsRoutes.js'
 import stockRoutes from './routes/stockRoutes.js';
+import aiRoutes from './routes/aiRoutes.js'; // Add this new import
 
 // --- Config ---
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
-
-console.log('API Key loaded:', process.env.FINNHUB_API_KEY ? 'Yes (length: ' + process.env.FINNHUB_API_KEY.length + ')' : 'No');
 
 // --- Middleware ---
 app.use(cors());
@@ -39,6 +38,7 @@ app.get('/', (req, res) => {
 // --- Routes ---
 app.use('/api/stocks', stockRoutes);
 app.use('/api/news', newsRoutes);
+app.use('/api/ai', aiRoutes); // Add this new route
 
 // --- Server Start ---
 app.listen(PORT, () => {

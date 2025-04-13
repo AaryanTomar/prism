@@ -67,23 +67,6 @@ const News = ({ ticker }) => {
         </div>
       )}
       
-      <div className="news-articles">
-        <h4>Recent News</h4>
-        {newsData.length > 0 ? (
-          <ul className="article-list">
-            {newsData.slice(0, 5).map((article, index) => (
-              <li key={index} className="article-item">
-                <div className="article-title">{article.title}</div>
-                <div className="article-date">
-                  {new Date(article.publishedAt).toLocaleDateString()}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="no-news">No recent news found for {ticker}</p>
-        )}
-      </div>
     </div>
   );
 };

@@ -7,12 +7,6 @@ const router = express.Router();
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 const TIINGO_API_TOKEN = process.env.TIINGO_API_TOKEN;
 
-// debugging
-console.log('STOCKROUTES - API key first 4 chars:', process.env.FINNHUB_API_KEY ? process.env.FINNHUB_API_KEY.substring(0, 4) : 'undefined');
-console.log('STOCKROUTES - API key length:', process.env.FINNHUB_API_KEY ? process.env.FINNHUB_API_KEY.length : 0);
-console.log('STOCKROUTES - Tiingo API token first 4 chars:', process.env.TIINGO_API_TOKEN ? process.env.TIINGO_API_TOKEN.substring(0, 4) : 'undefined');
-console.log('STOCKROUTES - Tiingo API token length:', process.env.TIINGO_API_TOKEN ? process.env.TIINGO_API_TOKEN.length : 0);
-
 // API req helper
 async function makeAPIRequest(url) {
     const response = await fetch(url);

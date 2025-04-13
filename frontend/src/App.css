@@ -1,4 +1,4 @@
-/* ui */
+/* Root variables - keeping your existing color scheme */
 :root {
   --primary-color: #121212;
   --accent-color: #222222;
@@ -28,47 +28,50 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 20px auto;
   background: var(--background-color);
   border-radius: 16px;
   box-shadow: var(--shadow);
   overflow: hidden;
-  padding: 0;
+  padding: 20px;
   position: relative;
 }
 
+/* App Header - Compact header for better use of space */
 .app-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 30px;
+  padding: 15px 20px;
   background-color: var(--background-color);
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .app-header h1 {
-  margin: 0 0 40px;
-  font-size: 24px;
+  margin: 0 0 15px;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
+/* Smaller search form */
 .search-form {
   display: flex;
   width: 100%;
-  max-width: 500px;
+  max-width: 350px;
   margin: 0 auto;
 }
 
 .search-form input {
   flex: 1;
-  padding: 16px 20px;
+  padding: 12px 15px;
   border: 1px solid var(--medium-gray);
   border-right: none;
   border-radius: var(--border-radius) 0 0 var(--border-radius);
-  font-size: 16px;
+  font-size: 14px;
   background: var(--light-gray);
   transition: var(--transition);
   color: #000000;
@@ -86,14 +89,14 @@ body {
 }
 
 .search-form button {
-  padding: 0 25px;
+  padding: 0 15px;
   background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   cursor: pointer;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   transition: var(--transition);
 }
 
@@ -101,39 +104,40 @@ body {
   background-color: var(--accent-color);
 }
 
+/* Welcome Message */
 .welcome-message {
   text-align: center;
-  padding: 60px 20px 80px;
+  padding: 30px 20px 40px;
 }
 
 .welcome-message h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin-bottom: 15px;
   font-weight: 500;
 }
 
 .welcome-message p {
   color: #555;
   max-width: 600px;
-  margin: 0 auto 30px;
-  line-height: 1.6;
+  margin: 0 auto 20px;
+  line-height: 1.5;
 }
 
 .example-tickers {
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .example-tickers span {
   margin-right: 10px;
   color: #555;
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .example-tickers button {
   background: var(--light-gray);
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   margin: 0 6px 10px;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -147,7 +151,7 @@ body {
 
 .loading, .error {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 20px;
   font-size: 16px;
 }
 
@@ -155,9 +159,9 @@ body {
   color: var(--negative);
 }
 
-/* overview */
+/* Stock Overview - More compact */
 .stock-overview {
-  padding: 30px;
+  padding: 20px;
   border-bottom: 1px solid var(--medium-gray);
   display: flex;
   justify-content: space-between;
@@ -171,14 +175,14 @@ body {
 }
 
 .stock-header h2 {
-  font-size: 32px;
+  font-size: 28px;
   margin: 0;
   font-weight: 600;
 }
 
 .company-name {
-  margin-left: 15px;
-  font-size: 18px;
+  margin-left: 12px;
+  font-size: 16px;
   color: #555;
 }
 
@@ -189,13 +193,13 @@ body {
 }
 
 .current-price {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
 }
 
 .price-change {
-  font-size: 16px;
-  margin-top: 5px;
+  font-size: 14px;
+  margin-top: 3px;
 }
 
 .price-change.positive {
@@ -206,22 +210,23 @@ body {
   color: var(--negative);
 }
 
-/* time buttons */
+/* Timeframe Selector - More compact */
 .timeframe-selector {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 12px;
   background-color: var(--light-gray);
 }
 
 .timeframe-selector button {
   background: #c0c0c0;
   border: none;
-  padding: 10px 20px;
-  margin: 0 5px;
+  padding: 8px 16px;
+  margin: 0 3px;
   border-radius: var(--border-radius);
   cursor: pointer;
   font-weight: 500;
+  font-size: 13px;
   transition: var(--transition);
 }
 
@@ -234,53 +239,68 @@ body {
   color: white;
 }
 
-/* main dash */
+/* Two-column Dashboard Grid - Optimized for two columns */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.4fr 1fr; /* Left column slightly wider for charts */
   gap: 20px;
-  padding: 30px;
+  padding: 15px;
 }
 
-@media (max-width: 900px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+/* Enhanced Dashboard Grid - Two column layout by default */
+.enhanced-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr; /* Stock info | AI + Questions */
+  gap: 20px;
+  padding: 15px;
 }
 
-/* chart background */
+.stock-data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.news-section {
+  width: 100%;
+}
+
+/* Chart Container - Compact */
 .chart-container {
   background: var(--background-color);
-  padding: 20px;
+  padding: 15px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  height: auto;
 }
 
-/* financials */
+/* Info Panels - More compact */
 .info-panels {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .financials-container, .profile-container {
   background: var(--background-color);
-  padding: 20px;
+  padding: 15px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }
 
 .financials-container h3, .profile-container h3 {
   margin-top: 0;
-  font-size: 20px;
+  margin-bottom: 12px;
+  font-size: 18px;
   font-weight: 500;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--medium-gray);
 }
 
 .key-metrics table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 14px;
 }
 
 .key-metrics tr {
@@ -292,7 +312,7 @@ body {
 }
 
 .key-metrics td {
-  padding: 12px 0;
+  padding: 8px 0;
 }
 
 .metric-label {
@@ -303,16 +323,18 @@ body {
 .metric-value {
   text-align: right;
   font-weight: 600;
+  font-variant-numeric: tabular-nums; /* Better alignment for numbers */
 }
 
-/* profiles */
+/* Profile Details - More compact */
 .profile-details {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .profile-details p {
-  margin: 8px 0;
-  line-height: 1.6;
+  margin: 6px 0;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
 .profile-label {
@@ -321,80 +343,45 @@ body {
 }
 
 .company-description {
-  margin-top: 20px;
-  font-size: 14px;
-  line-height: 1.6;
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.5;
   color: #555;
 }
 
-/* ui responsiveness */
-@media (max-width: 1024px) {
-  body {
-    display: block;
-    padding: 20px;
-  }
-  
-  .app-container {
-    margin: 0 auto;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    padding: 0;
-  }
-  
-  .app-container {
-    border-radius: 0;
-    max-width: 100%;
-  }
-  
-  .stock-overview {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .stock-price {
-    align-items: flex-start;
-    margin-top: 15px;
-  }
-  
-  .welcome-message {
-    padding: 40px 20px 60px;
-  }
-
-  /* news components */
+/* News Components - More compact */
 .news-container {
   background: var(--background-color);
-  padding: 20px;
+  padding: 15px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .news-container h3 {
   margin-top: 0;
-  font-size: 20px;
+  margin-bottom: 12px;
+  font-size: 18px;
   font-weight: 500;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--medium-gray);
 }
 
 .news-container h4 {
-  margin-top: 20px;
-  margin-bottom: 15px;
-  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  font-size: 16px;
   font-weight: 500;
   color: #333;
 }
 
 .news-summary {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .summary-content p {
-  margin: 0 0 12px;
-  line-height: 1.6;
+  margin: 0 0 10px;
+  line-height: 1.5;
   color: #333;
   font-size: 14px;
 }
@@ -406,7 +393,7 @@ body {
 }
 
 .article-item {
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--light-gray);
 }
 
@@ -416,7 +403,7 @@ body {
 
 .article-title {
   font-weight: 500;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   line-height: 1.4;
   font-size: 14px;
 }
@@ -426,55 +413,196 @@ body {
   color: #777;
 }
 
-.news-container.loading, 
-.news-container.error {
-  text-align: center;
-  padding: 40px 20px;
+/* News & Analysis Section - New Styles */
+.news-analysis {
+  background-color: var(--light-gray);
+  padding: 18px;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  box-shadow: var(--shadow);
 }
 
-.news-container.error {
-  color: var(--negative);
+.news-analysis h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
-.no-news {
-  color: #777;
-  font-style: italic;
-  text-align: center;
-  padding: 20px 0;
+.ai-analysis {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* side layouts */
-.enhanced-dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 30px;
+h1, h2, h3 {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 15px;
+  color: var(--text-color);
 }
 
-.stock-data-section {
+/* Financial education section */
+.learn-more {
+  margin-bottom: 15px;
+  background-color: var(--background-color);
+  padding: 18px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.learn-more h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* Button container for consistent spacing */
+.button-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  margin: 15px 0;
 }
 
-.news-section {
+/* Question button styles - made consistent */
+.question-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 14px 16px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
   width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
 }
 
-/* ui responsiveness */
-@media (min-width: 1200px) {
-  .enhanced-dashboard-grid {
-    grid-template-columns: 2fr 1fr;
-  }
-  
+.question-button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ask your own question section */
+.ask-own {
+  margin-top: 20px;
+}
+
+.ask-own h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* Text input box - made bigger but not excessive */
+.question-input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid var(--medium-gray);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  margin-bottom: 10px;
+  min-height: 60px;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  transition: var(--transition);
+  resize: vertical;
+}
+
+.question-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(18, 18, 18, 0.1);
+}
+
+/* Ask button - consistent with other buttons */
+.ask-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.ask-button:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Answer section */
+.answer {
+  background-color: var(--light-gray);
+  padding: 16px;
+  border-radius: var(--border-radius);
+  margin-top: 15px;
+  border-left: 4px solid var(--primary-color);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1200px) {  
   .app-container {
     max-width: 1200px;
   }
 }
 
-@media (max-width: 1200px) {
-  .enhanced-dashboard-grid {
+@media (max-width: 1024px) {
+  body {
+    display: block;
+    padding: 15px;
+  }
+  
+  .app-container {
+    margin: 0 auto;
+  }
+  
+  .enhanced-dashboard-grid,
+  .dashboard-grid {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+  }
+  
+  .app-container {
+    border-radius: 0;
+    max-width: 100%;
+    padding: 15px;
+    margin: 0;
+  }
+  
+  .stock-overview {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .stock-price {
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .welcome-message {
+    padding: 25px 15px 30px;
+  }
+  
+  .ask-button {
+    width: 100%;
+    padding: 12px;
+  }
 }
