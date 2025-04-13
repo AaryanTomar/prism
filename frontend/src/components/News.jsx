@@ -10,17 +10,22 @@ const News = ({ ticker }) => {
 
   useEffect(() => {
     if (ticker && ticker !== lastFetchedTickerRef.current) {
-      const fetchNews = async () => {
+      const fetchData = async () => {
         setLoading(true);
         setError(null);
         
         try {
-          console.log(`Fetching news for ${ticker}...`);
-          const response = await axios.get(`http://localhost:3000/api/news/overview/${ticker}`);
+          console.log(`Fetching data for ${ticker}...`);
+          // Use the full URL to ensure it reaches the correct endpoint
+          const response = await axios.get(`http://localhost:3000/api/news/data/${ticker}`);
+          
+          console.log('Response received:', response.status);
+          console.log('Response data:', response.data);
           
           if (response.data) {
             setNewsData(response.data.news || []);
             setSummary(response.data.llmSummary || '');
+            console.log('Set summary to:', response.data.llmSummary);
             lastFetchedTickerRef.current = ticker;
           }
         } catch (err) {
@@ -31,7 +36,7 @@ const News = ({ ticker }) => {
         }
       };
 
-      fetchNews();
+      fetchData();
     }
   }, [ticker]);
 
@@ -66,7 +71,6 @@ const News = ({ ticker }) => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };
