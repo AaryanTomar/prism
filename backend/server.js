@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import newsRoutes from './routes/newsRoutes.js'
 import stockRoutes from './routes/stockRoutes.js';
-import aiRoutes from './routes/aiRoutes.js'; // Add this new import
+import aiRoutes from './routes/aiRoutes.js';
 
 // --- Config ---
 dotenv.config();
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 // --- Routes ---
 app.use('/api/stocks', stockRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/ai', aiRoutes); // Add this new route
+app.use('/api/ai', aiRoutes);
 
 // --- Server Start ---
 app.listen(PORT, () => {
