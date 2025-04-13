@@ -1,35 +1,181 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
+import StockChart from './stock_components/StockChart';
+import CompanyProfile from './stock_components/CompanyProfile';
+import FinancialMetrics from './stock_components/FinancialMetrics';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ticker, setTicker] = useState('');
+  const [stockData, setStockData] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [financials, setFinancials] = useState(null);
+  const [historicalData, setHistoricalData] = useState(null);
+  const [timeframe, setTimeframe] = useState('1M');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+
+  const API_BASE_URL = 'http://localhost:3000/api/stocks';
+
+  const fetchStockData = async () => {
+    if (!ticker) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const endDate = Math.floor(Date.now() / 1000);
+      let startDate;
+      
+      switch(timeframe) {
+        case '1W':
+          startDate = endDate - 60 * 60 * 24 * 7; // 1 week
+          break;
+        case '1M':
+          startDate = endDate - 60 * 60 * 24 * 30; // 1 month
+          break;
+        case '3M':
+          startDate = endDate - 60 * 60 * 24 * 90; // 3 months
+          break;
+        case '1Y':
+          startDate = endDate - 60 * 60 * 24 * 365; // 1 year
+          break;
+        default:
+          startDate = endDate - 60 * 60 * 24 * 30; // Default to 1 month
+      }
+      
+      const [quoteResponse, profileResponse, financialsResponse, historicalResponse] = await Promise.all([
+        axios.get(`${API_BASE_URL}/quote/${ticker}`),
+        axios.get(`${API_BASE_URL}/profile/${ticker}`),
+        axios.get(`${API_BASE_URL}/financials/${ticker}`),
+        axios.get(`${API_BASE_URL}/candles/${ticker}?resolution=D&from=${startDate}&to=${endDate}`)
+      ]);
+      
+      setStockData(quoteResponse.data);
+      setProfile(profileResponse.data);
+      setFinancials(financialsResponse.data);
+      setHistoricalData(historicalResponse.data);
+    } catch (err) {
+      console.error('Error fetching stock data:', err);
+      setError('Failed to fetch stock data. Please check if the server is running and the ticker is valid.');
+      
+      // Clear any previously loaded data
+      setStockData(null);
+      setProfile(null);
+      setFinancials(null);
+      setHistoricalData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (ticker) {
+      fetchStockData();
+    }
+  }, [ticker, timeframe]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (inputValue.trim()) {
+      setTicker(inputValue.trim().toUpperCase());
+    }
+  };
+
+  const handleTimeframeChange = (newTimeframe) => {
+    if (ticker) {
+      setTimeframe(newTimeframe);
+    }
+  };
+
+  const calculatePriceChange = () => {
+    if (!stockData) return { change: 0, percentChange: 0 };
+    
+    const change = stockData.c - stockData.pc;
+    const percentChange = (change / stockData.pc) * 100;
+    
+    return {
+      change: change.toFixed(2),
+      percentChange: percentChange.toFixed(2)
+    };
+  };
+
+  const { change, percentChange } = calculatePriceChange();
+  const isPositive = change >= 0;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-container">
+      <header className="app-header">
+        <h1>Stock Visualizer</h1>
+        
+        <form className="search-form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Enter a ticker (e.g., AAPL)"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
+      </header>
+
+      {loading && <div className="loading">Loading data for {ticker}...</div>}
+      
+      {error && <div className="error">{error}</div>}
+
+      {!ticker && !loading && !error && (
+        <div className="welcome-message">
+          <h2>Welcome to Stock Visualizer</h2>
+          <p>Enter a ticker above to view detailed price information and financials.</p>
+          <div className="example-tickers">
+            <span>Examples: </span>
+            <button onClick={() => {setInputValue('AAPL'); setTicker('AAPL');}}>AAPL</button>
+            <button onClick={() => {setInputValue('MSFT'); setTicker('MSFT');}}>MSFT</button>
+            <button onClick={() => {setInputValue('GOOGL'); setTicker('GOOGL');}}>GOOGL</button>
+            <button onClick={() => {setInputValue('AMZN'); setTicker('AMZN');}}>AMZN</button>
+          </div>
+        </div>
+      )}
+
+      {stockData && !loading && (
+        <>
+          <div className="stock-overview">
+            <div className="stock-header">
+              <h2>{ticker}</h2>
+              {profile && <span className="company-name">{profile.name}</span>}
+            </div>
+            <div className="stock-price">
+              <span className="current-price">${stockData.c.toFixed(2)}</span>
+              <span className={`price-change ${isPositive ? 'positive' : 'negative'}`}>
+                {isPositive ? '+' : ''}{change} ({isPositive ? '+' : ''}{percentChange}%)
+              </span>
+            </div>
+          </div>
+
+          <div className="timeframe-selector">
+            <button className={timeframe === '1W' ? 'active' : ''} onClick={() => handleTimeframeChange('1W')}>1W</button>
+            <button className={timeframe === '1M' ? 'active' : ''} onClick={() => handleTimeframeChange('1M')}>1M</button>
+            <button className={timeframe === '3M' ? 'active' : ''} onClick={() => handleTimeframeChange('3M')}>3M</button>
+            <button className={timeframe === '1Y' ? 'active' : ''} onClick={() => handleTimeframeChange('1Y')}>1Y</button>
+          </div>
+
+          <div className="dashboard-grid">
+            {historicalData && <StockChart data={historicalData} />}
+            
+            <div className="info-panels">
+              {profile && <CompanyProfile profile={profile} />}
+              {financials && <FinancialMetrics 
+                financials={financials} 
+                stockData={stockData} 
+                profile={profile} 
+              />}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

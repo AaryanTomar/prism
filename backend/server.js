@@ -9,7 +9,7 @@ import stockRoutes from './routes/stockRoutes.js';
 // --- Config ---
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 
 console.log('API Key loaded:', process.env.FINNHUB_API_KEY ? 'Yes (length: ' + process.env.FINNHUB_API_KEY.length + ')' : 'No');
@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   });  
   
 // --- Routes ---
-app.use('/api', stockRoutes);
+app.use('/api/stocks', stockRoutes);
 app.use('/api/news', newsRoutes);
 
 // --- Server Start ---

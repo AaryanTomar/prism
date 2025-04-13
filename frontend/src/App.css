@@ -1,42 +1,480 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Adjusted App.css */
+:root {
+  --positive-color: #22c55e;
+  --negative-color: #ef4444;
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --input-bg: #2d2d2d;
+  --text-color: #ffffff;
+  --text-secondary: #a0a0a0;
+  --border-color: #333333;
+  --active-color: #ffffff;
+  --button-hover: #2a2a2a;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 32px;
+}
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
   text-align: center;
+  padding-top: 40px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.search-form {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-form input {
+  flex-grow: 1;
+  padding: 16px 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+.search-form input:focus {
+  outline: none;
+  border-color: var(--text-color);
+}
+
+.search-form input::placeholder {
+  color: var(--text-secondary);
+}
+
+.search-form button {
+  padding: 16px 28px;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.search-form button:hover {
+  opacity: 0.9;
+}
+
+.welcome-message {
+  text-align: center;
+  padding: 80px 20px;
+  margin: 60px auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  max-width: 800px;
+}
+
+.welcome-message h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.welcome-message p {
+  max-width: 500px;
+  margin: 0 auto 32px;
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+.example-tickers {
+  margin-top: 32px;
+}
+
+.example-tickers span {
+  display: inline-block;
+  margin-right: 16px;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.example-tickers button {
+  display: inline-block;
+  margin: 6px;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.example-tickers button:hover {
+  background-color: var(--button-hover);
+  border-color: var(--text-color);
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  border-radius: 4px;
+  margin: 40px auto;
+  max-width: 500px;
+  border: 1px solid var(--border-color);
+}
+
+.loading {
+  color: var(--text-secondary);
+}
+
+.error {
+  color: var(--negative-color);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.stock-overview {
+  margin: 0 auto 40px;
+  text-align: center;
+  max-width: 1200px;
+}
+
+.stock-header {
+  margin-bottom: 12px;
+}
+
+.stock-header h2 {
+  font-size: 36px;
+  font-weight: 700;
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.company-name {
+  color: var(--text-secondary);
+  font-size: 20px;
+}
+
+.stock-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 20px;
+}
+
+.current-price {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.price-change {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 4px;
+}
+
+.positive {
+  color: var(--positive-color);
+}
+
+.negative {
+  color: var(--negative-color);
+}
+
+.timeframe-selector {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 40px 0;
+}
+
+.timeframe-selector button {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 15px;
+  min-width: 60px;
+  transition: all 0.2s;
+}
+
+.timeframe-selector button:hover {
+  background-color: var(--button-hover);
+  border-color: var(--text-color);
+}
+
+.timeframe-selector button.active {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border-color: var(--text-color);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 3fr 2fr;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+.chart-container {
+  background-color: var(--card-bg);
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.chart-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.chart-price-change {
+  font-weight: 600;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.chart-timeframe {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-left: 6px;
+}
+
+.info-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.profile-container, .financials-container {
+  background-color: var(--card-bg);
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.profile-container h3, .financials-container h3 {
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.company-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  padding: 4px;
+}
+
+.company-info h4 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.ticker-exchange {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.profile-details {
+  margin-bottom: 24px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-row:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.profile-value {
+  font-weight: 500;
+}
+
+.company-description h4 {
+  margin: 16px 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.company-description p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.metrics-table h4 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
-.card {
-  padding: 2em;
+.metrics-table table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.read-the-docs {
-  color: #888;
+.metrics-table tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.metrics-table tr:last-child {
+  border-bottom: none;
+}
+
+.metrics-table td {
+  padding: 12px 0;
+}
+
+.metric-label {
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.metric-value {
+  text-align: right;
+  font-weight: 500;
+}
+
+.custom-tooltip {
+  background-color: var(--card-bg);
+  padding: 12px 16px;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.custom-tooltip .date {
+  font-weight: 600;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.custom-tooltip .price {
+  margin: 6px 0;
+}
+
+.custom-tooltip .volume {
+  margin-top: 10px;
+  color: var(--text-secondary);
+}
+
+/* Recharts customizations */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.recharts-text.recharts-cartesian-axis-tick-value {
+  fill: var(--text-secondary);
+  font-size: 12px;
+}
+
+.recharts-reference-line line {
+  stroke: var(--text-secondary);
+  stroke-dasharray: 3 3;
+}
+
+.recharts-tooltip-cursor {
+  stroke: var(--text-color);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.recharts-default-tooltip {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  color: var(--text-color) !important;
 }
