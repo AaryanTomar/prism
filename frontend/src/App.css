@@ -16,7 +16,7 @@
 
 body {
   font-family: var(--font-family);
-  background-color: #f8f8f8;
+  background-color: #020101;
   margin: 0;
   padding: 0;
   color: var(--text-color);
@@ -62,11 +62,10 @@ body {
 }
 
 .app-header h1 {
-  margin: 0 0 15px;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 2px;
+  font-weight: 200;
 }
 
 /* stock design */
@@ -166,9 +165,11 @@ body {
 }
 
 .welcome-message h2 {
-  font-size: 22px;
-  margin-bottom: 15px;
-  font-weight: 500;
+  font-size: 100px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  font-weight: 300;
 }
 
 .welcome-message p {

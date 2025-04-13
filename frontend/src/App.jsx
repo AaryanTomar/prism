@@ -60,7 +60,16 @@ function App() {
           startDate = endDate - 60 * 60 * 24 * 30; // Default to 1 month
       }
       
-      if (!stockData) {
+      // Modified this section to always fetch fresh data when a ticker is searched
+      // Only historical data changes based on whether we're changing ticker or timeframe
+      if (stockData && stockData.ticker === ticker) {
+        // If we're just changing timeframe for the same ticker, only update historical data
+        const historicalResponse = await axios.get(
+          `${API_BASE_URL}/candles/${ticker}?resolution=D&from=${startDate}&to=${endDate}`
+        );
+        setHistoricalData(historicalResponse.data);
+      } else {
+        // When changing ticker, fetch all data
         const [quoteResponse, profileResponse, financialsResponse, historicalResponse] = await Promise.all([
           axios.get(`${API_BASE_URL}/quote/${ticker}`),
           axios.get(`${API_BASE_URL}/profile/${ticker}`),
@@ -68,38 +77,39 @@ function App() {
           axios.get(`${API_BASE_URL}/candles/${ticker}?resolution=D&from=${startDate}&to=${endDate}`)
         ]);
         
-        setStockData(quoteResponse.data);
+        // Store ticker with stock data to track changes
+        const updatedStockData = {
+          ...quoteResponse.data,
+          ticker: ticker // Add ticker to stockData for comparison
+        };
+        
+        setStockData(updatedStockData);
         setProfile(profileResponse.data);
         setFinancials(financialsResponse.data);
-        setHistoricalData(historicalResponse.data);
-      } else {
-        const historicalResponse = await axios.get(
-          `${API_BASE_URL}/candles/${ticker}?resolution=D&from=${startDate}&to=${endDate}`
-        );
         setHistoricalData(historicalResponse.data);
       }
     } catch (err) {
       console.error('Error fetching stock data:', err);
       setError('Failed to fetch stock data. Please check if the server is running and the ticker is valid.');
       
-      if (!stockData) {
-        setStockData(null);
-        setProfile(null);
-        setFinancials(null);
-        setHistoricalData(null);
-      }
+      // Clear all data on error
+      setStockData(null);
+      setProfile(null);
+      setFinancials(null);
+      setHistoricalData(null);
     } finally {
       setLoading(false);
     }
   };
 
+  // This effect runs when ticker changes
   useEffect(() => {
     if (ticker) {
-      setStockData(null);
       fetchStockData();
     }
   }, [ticker]);
 
+  // This effect runs when timeframe changes
   useEffect(() => {
     if (ticker && stockData) {
       fetchStockData();
@@ -108,8 +118,20 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (inputValue.trim()) {
-      setTicker(inputValue.trim().toUpperCase());
+    const newTicker = inputValue.trim().toUpperCase();
+    
+    if (newTicker && newTicker !== ticker) {
+      // Clear existing data before setting new ticker
+      setStockData(null);
+      setProfile(null);
+      setFinancials(null);
+      setHistoricalData(null);
+      
+      // Set the new ticker
+      setTicker(newTicker);
+    } else if (newTicker === ticker) {
+      // If user searches for same ticker, just refresh the data
+      fetchStockData();
     }
   };
 
@@ -134,97 +156,96 @@ function App() {
   const { change, percentChange } = calculatePriceChange();
   const isPositive = change >= 0;
 
-// home page
-const renderWelcomePage = () => (
-  <div className="welcome-message">
-    <h2>STOCK VISUALIZER</h2>
-    <p>Enter a ticker symbol to view detailed price information, financials, and news.</p>
-    
-    <form className="search-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Enter a ticker (e.g., AAPL)"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <button type="submit">Search</button>
-    </form>
-    
-    <div className="example-tickers">
-      <span>Examples</span>
-      <div>
-        <button onClick={() => {setInputValue('AAPL'); setTicker('AAPL');}}>AAPL</button>
-        <button onClick={() => {setInputValue('MSFT'); setTicker('MSFT');}}>MSFT</button>
-        <button onClick={() => {setInputValue('GOOGL'); setTicker('GOOGL');}}>GOOGL</button>
-        <button onClick={() => {setInputValue('AMZN'); setTicker('AMZN');}}>AMZN</button>
-      </div>
-    </div>
-  </div>
-);
-
-// search ticker content
-// search ticker content
-const renderDashboard = () => (
-  <>
-    <header className="app-header">
-      <div className="stock-info">
-        <div className="stock-header">
-          <h2>{ticker}</h2>
-          {profile && <span className="company-name">{profile.name}</span>}
-        </div>
-        <div className="stock-price">
-          <span className="current-price">${stockData.c.toFixed(2)}</span>
-          <span className={`price-change ${isPositive ? 'positive' : 'negative'}`}>
-            {isPositive ? '+' : ''}{change} ({isPositive ? '+' : ''}{percentChange}%)
-          </span>
-        </div>
-      </div>
+  // home page
+  const renderWelcomePage = () => (
+    <div className="welcome-message">
+      <h2>PRI$M</h2>
+      <p>Enter a ticker symbol to view detailed price information, financials, and news.</p>
       
-      <div className="title-search">
-        <h1>STOCK VISUALIZER</h1>
-        
-        <form className="search-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Enter a ticker (e.g., AAPL)"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-    </header>
-
-    <div className="enhanced-dashboard-grid">
-      <div className="stock-data-section">
-        <div className="chart-section">
-          <div className="timeframe-selector">
-            <button className={timeframe === '1W' ? 'active' : ''} onClick={() => handleTimeframeChange('1W')}>1W</button>
-            <button className={timeframe === '1M' ? 'active' : ''} onClick={() => handleTimeframeChange('1M')}>1M</button>
-            <button className={timeframe === '3M' ? 'active' : ''} onClick={() => handleTimeframeChange('3M')}>3M</button>
-            <button className={timeframe === '6M' ? 'active' : ''} onClick={() => handleTimeframeChange('6M')}>6M</button>
-            <button className={timeframe === '1Y' ? 'active' : ''} onClick={() => handleTimeframeChange('1Y')}>1Y</button>
-          </div>
-          {historicalData && <StockChart data={historicalData} />}
+      <form className="search-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter a ticker (e.g., AAPL)"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+      
+      <div className="example-tickers">
+        <span>Examples</span>
+        <div>
+          <button onClick={() => {setInputValue('AAPL'); setTicker('AAPL');}}>AAPL</button>
+          <button onClick={() => {setInputValue('MSFT'); setTicker('MSFT');}}>MSFT</button>
+          <button onClick={() => {setInputValue('GOOGL'); setTicker('GOOGL');}}>GOOGL</button>
+          <button onClick={() => {setInputValue('AMZN'); setTicker('AMZN');}}>AMZN</button>
         </div>
-        
-        <div className="info-panels">
-          {profile && <CompanyProfile profile={profile} />}
-          {financials && <FinancialMetrics 
-            financials={financials} 
-            stockData={stockData} 
-            profile={profile} 
-          />}
-        </div>
-      </div>
-
-      <div className="news-section">
-        {MemoizedNews}
-        {MemoizedAILearning}
       </div>
     </div>
-  </>
-);
+  );
+
+  // search ticker content
+  const renderDashboard = () => (
+    <>
+      <header className="app-header">
+        <div className="stock-info">
+          <div className="stock-header">
+            <h2>{ticker}</h2>
+            {profile && <span className="company-name">{profile.name}</span>}
+          </div>
+          <div className="stock-price">
+            <span className="current-price">${stockData.c.toFixed(2)}</span>
+            <span className={`price-change ${isPositive ? 'positive' : 'negative'}`}>
+              {isPositive ? '+' : ''}{change} ({isPositive ? '+' : ''}{percentChange}%)
+            </span>
+          </div>
+        </div>
+        
+        <div className="title-search">
+          <h1>PRI$M</h1>
+          
+          <form className="search-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter a ticker (e.g., AAPL)"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </form>
+        </div>
+      </header>
+
+      <div className="enhanced-dashboard-grid">
+        <div className="stock-data-section">
+          <div className="chart-section">
+            <div className="timeframe-selector">
+              <button className={timeframe === '1W' ? 'active' : ''} onClick={() => handleTimeframeChange('1W')}>1W</button>
+              <button className={timeframe === '1M' ? 'active' : ''} onClick={() => handleTimeframeChange('1M')}>1M</button>
+              <button className={timeframe === '3M' ? 'active' : ''} onClick={() => handleTimeframeChange('3M')}>3M</button>
+              <button className={timeframe === '6M' ? 'active' : ''} onClick={() => handleTimeframeChange('6M')}>6M</button>
+              <button className={timeframe === '1Y' ? 'active' : ''} onClick={() => handleTimeframeChange('1Y')}>1Y</button>
+            </div>
+            {historicalData && <StockChart data={historicalData} />}
+          </div>
+          
+          <div className="info-panels">
+            {profile && <CompanyProfile profile={profile} />}
+            {financials && <FinancialMetrics 
+              financials={financials} 
+              stockData={stockData} 
+              profile={profile} 
+            />}
+          </div>
+        </div>
+
+        <div className="news-section">
+          {MemoizedNews}
+          {MemoizedAILearning}
+        </div>
+      </div>
+    </>
+  );
 
   return (
     <div className="app-container">
