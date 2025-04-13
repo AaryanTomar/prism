@@ -24,13 +24,12 @@ function AILearning({ ticker, profile, stockData }) {
     setError(null);
     try {
       const companyParagraph = createCompanyParagraph();
-      
       const [hypotheticalRes, termRes, industryRes] = await Promise.all([
         axios.post('http://localhost:3000/api/ai/hypothetical-question', { paragraph: companyParagraph }),
         axios.post('http://localhost:3000/api/ai/term-question', { paragraph: companyParagraph }),
         axios.post('http://localhost:3000/api/ai/industry-question', { paragraph: companyParagraph })
-    ]);
-      
+      ]);
+
       setQuestions({
         hypothetical: hypotheticalRes.data.question,
         term: termRes.data.question,
@@ -58,16 +57,16 @@ function AILearning({ ticker, profile, stockData }) {
 
   const handleSubmitQuestion = async () => {
     if (!customQuestion.trim()) return;
-    
+
     setLoading(true);
     setAnswer('');
     setError(null);
-    
+
     try {
-      const response = await axios.post('http://localhost:3000/api/ai/answer-question', { 
-        question: customQuestion 
+      const response = await axios.post('http://localhost:3000/api/ai/answer-question', {
+        question: customQuestion
       });
-      
+
       setAnswer(response.data.answer);
     } catch (err) {
       console.error('Error getting answer:', err);
@@ -82,57 +81,59 @@ function AILearning({ ticker, profile, stockData }) {
   }
 
   return (
-    <div className="ai-learning-section">
-      <h2>Learn More About Finance</h2>
-      
-      {loading && !answer && <div className="loading">Generating content...</div>}
-      {error && <div className="error">{error}</div>}
-      
-      {!loading && questions.hypothetical && (
-        <div className="question-options">
-          <h3>Select a Question to Learn From:</h3>
-          <div className="question-buttons">
-            <button 
-              onClick={() => handleSelectQuestion('hypothetical')}
-              className={selectedQuestion === questions.hypothetical ? 'active' : ''}
-            >
-              {questions.hypothetical}
-            </button>
-            <button 
-              onClick={() => handleSelectQuestion('term')}
-              className={selectedQuestion === questions.term ? 'active' : ''}
-            >
-              {questions.term}
-            </button>
-            <button 
-              onClick={() => handleSelectQuestion('industry')}
-              className={selectedQuestion === questions.industry ? 'active' : ''}
-            >
-              {questions.industry}
-            </button>
+    <div className="ai-learning-box">
+      <div className="ai-learning-section">
+        <h2>Compound Your Knowledge</h2>
+
+        {loading && !answer && <div className="loading">Generating content...</div>}
+        {error && <div className="error">{error}</div>}
+
+        {!loading && questions.hypothetical && (
+          <div className="question-options">
+            <h3>Not sure where to start? Check these out:</h3>
+            <div className="question-buttons">
+              <button
+                onClick={() => handleSelectQuestion('hypothetical')}
+                className={selectedQuestion === questions.hypothetical ? 'active' : ''}
+              >
+                {questions.hypothetical}
+              </button>
+              <button
+                onClick={() => handleSelectQuestion('term')}
+                className={selectedQuestion === questions.term ? 'active' : ''}
+              >
+                {questions.term}
+              </button>
+              <button
+                onClick={() => handleSelectQuestion('industry')}
+                className={selectedQuestion === questions.industry ? 'active' : ''}
+              >
+                {questions.industry}
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="custom-question">
+          <h3>Ask Your Own Question:</h3>
+          <div className="question-input">
+            <input
+              type="text"
+              value={customQuestion}
+              onChange={(e) => setCustomQuestion(e.target.value)}
+              placeholder="Type your finance question here..."
+            />
+            <button onClick={handleSubmitQuestion}>Ask</button>
           </div>
         </div>
-      )}
-      
-      <div className="custom-question">
-        <h3>Ask Your Own Question:</h3>
-        <div className="question-input">
-          <input
-            type="text"
-            value={customQuestion}
-            onChange={(e) => setCustomQuestion(e.target.value)}
-            placeholder="Type your finance question here..."
-          />
-          <button onClick={handleSubmitQuestion}>Ask</button>
-        </div>
+
+        {answer && (
+          <div className="ai-answer">
+            <h3>Answer:</h3>
+            <p>{answer}</p>
+          </div>
+        )}
       </div>
-      
-      {answer && (
-        <div className="ai-answer">
-          <h3>Answer:</h3>
-          <p>{answer}</p>
-        </div>
-      )}
     </div>
   );
 }

@@ -38,23 +38,79 @@ body {
   position: relative;
 }
 
-/* App Header - Compact header for better use of space */
+/* Modified App Header - with flipped elements */
 .app-header {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 15px 20px;
   background-color: var(--background-color);
-  text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.stock-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.app-header .title-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
 }
 
 .app-header h1 {
   margin: 0 0 15px;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+/* Stock Header (symbol and name) */
+.stock-header {
+  display: flex;
+  align-items: baseline;
+}
+
+.stock-header h2 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.company-name {
+  margin-left: 12px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Stock Price styling */
+.stock-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.current-price {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.price-change {
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.price-change.positive {
+  color: var(--positive);
+}
+
+.price-change.negative {
+  color: var(--negative);
 }
 
 /* Smaller search form */
@@ -135,7 +191,7 @@ body {
 }
 
 .example-tickers button {
-  background: var(--light-gray);
+  background: #c0c0c0;
   border: none;
   padding: 10px 20px;
   margin: 0 6px 10px;
@@ -146,7 +202,7 @@ body {
 }
 
 .example-tickers button:hover {
-  background: var(--medium-gray);
+  background: #a0a0a0;
 }
 
 .loading, .error {
@@ -159,63 +215,21 @@ body {
   color: var(--negative);
 }
 
-/* Stock Overview - More compact */
-.stock-overview {
-  padding: 20px;
-  border-bottom: 1px solid var(--medium-gray);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.stock-header {
-  display: flex;
-  align-items: baseline;
-}
-
-.stock-header h2 {
-  font-size: 28px;
-  margin: 0;
-  font-weight: 600;
-}
-
-.company-name {
-  margin-left: 12px;
-  font-size: 16px;
-  color: #555;
-}
-
-.stock-price {
+/* New chart section wrapper */
+.chart-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  margin-bottom: 15px;
 }
 
-.current-price {
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.price-change {
-  font-size: 14px;
-  margin-top: 3px;
-}
-
-.price-change.positive {
-  color: var(--positive);
-}
-
-.price-change.negative {
-  color: var(--negative);
-}
-
-/* Timeframe Selector - More compact */
+/* Timeframe Selector - Updated to match chart width */
 .timeframe-selector {
   display: flex;
   justify-content: center;
   padding: 12px;
   background-color: var(--light-gray);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  margin-bottom: -1px; /* Creates a seamless connection with chart below */
 }
 
 .timeframe-selector button {
@@ -265,13 +279,17 @@ body {
   width: 100%;
 }
 
-/* Chart Container - Compact */
+/* Chart Container - Make sure it has rounded corners only at the bottom when inside chart-section */
 .chart-container {
   background: var(--background-color);
   padding: 15px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   height: auto;
+}
+
+.chart-section .chart-container {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
 /* Info Panels - More compact */
@@ -457,17 +475,22 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-/* Button container for consistent spacing */
 .button-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
   margin: 15px 0;
 }
 
-/* Question button styles - made consistent */
-.question-button {
-  background-color: var(--primary-color);
+.question-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.question-buttons button {
+  background-color: #333;
   color: white;
   border: none;
   padding: 14px 16px;
@@ -480,12 +503,24 @@ h1, h2, h3 {
   min-height: 60px;
   display: flex;
   align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .question-button:hover {
-  background-color: var(--accent-color);
+  background-color: #555555;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.question-buttons button.active {
+  background-color: var(--primary-color);
+}
+
+.ai-learning-box {
+  background: var(--background-color);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-top: 15px;
 }
 
 /* Ask your own question section */
@@ -500,19 +535,25 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
-/* Text input box - made bigger but not excessive */
 .question-input {
-  width: 100%;
-  padding: 14px;
-  border: 2px solid var(--medium-gray);
+  display: flex;
+  border: none;
+  background: none;
+  padding: 0;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.question-input input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid var(--medium-gray);
   border-radius: var(--border-radius);
   font-size: 14px;
-  margin-bottom: 10px;
-  min-height: 60px;
-  box-sizing: border-box;
-  font-family: var(--font-family);
+  background: white;
+  color: black;
+  outline: none;
   transition: var(--transition);
-  resize: vertical;
 }
 
 .question-input:focus {
@@ -521,24 +562,19 @@ h1, h2, h3 {
   box-shadow: 0 0 0 2px rgba(18, 18, 18, 0.1);
 }
 
-/* Ask button - consistent with other buttons */
-.ask-button {
+.question-input button {
+  padding: 12px 18px;
   background-color: var(--primary-color);
   color: white;
   border: none;
-  padding: 12px 20px;
   border-radius: var(--border-radius);
   font-size: 14px;
   cursor: pointer;
   transition: var(--transition);
-  font-weight: 500;
-  min-width: 100px;
 }
 
-.ask-button:hover {
+.question-input button:hover {
   background-color: var(--accent-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Answer section */
@@ -573,28 +609,51 @@ h1, h2, h3 {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Make header stack vertically on medium screens */
+  .app-header {
+    flex-direction: column-reverse;  /* Reverse to keep stock info at top */
+    align-items: center;
+  }
+  
+  .app-header .title-search {
+    align-items: center;  /* Center align on smaller screens */
+    margin-bottom: 15px;
+  }
+  
+  .stock-info {
+    margin-top: 0;
+  }
 }
 
-@media (max-width: 768px) {
-  body {
-    padding: 0;
-  }
-  
-  .app-container {
-    border-radius: 0;
-    max-width: 100%;
-    padding: 15px;
-    margin: 0;
-  }
-  
-  .stock-overview {
+@media (max-width: 1024px) {
+  .app-header {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .app-header .title-search {
+    order: 1;
+  }
+  
+  .stock-info {
+    order: 2;
+  }
+  
+  .stock-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .company-name {
+    margin-left: 0;
+    margin-top: 5px;
   }
   
   .stock-price {
-    align-items: flex-start;
-    margin-top: 10px;
+    align-items: center;
   }
   
   .welcome-message {
