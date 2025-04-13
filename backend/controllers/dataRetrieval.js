@@ -40,7 +40,7 @@ async function getLLMSummary(input) {
         console.log('No summary found, generating new one...');
     
         // Trigger the route by making an HTTP GET request
-        await fetch(`http://localhost:3000/api/news/overview/${ input }`);
+        const result = await generateStockOverviewWithLLM("Apple");;
     
         // Wait for MongoDB to update
         stock = await Stock.findOne({ ticker });
